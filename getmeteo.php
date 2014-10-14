@@ -1,6 +1,20 @@
 <html>
 	<head>
 		<meta charset="utf-8"/>
+		<style>
+			div.forecast {
+				background-color: yellow;
+				border-color: black;
+				border-style:solid;
+				border-width:2px;
+				border-radius:8px;
+				width:200px;
+				height:200px;
+				margin:4px;
+				padding:2px;
+				display:inline-block; 
+			}
+		</style>
 	</head>
 	<body>
 		<h1> Estado do tempo em <?php echo $_GET['location'] ?></h1>
@@ -44,6 +58,27 @@
 		
 		$temperatura = $forecastPHP->data->current_condition[0]->temp_C;
 		echo "A temperatura corrente é de ".$temperatura." ºC";
+		
+		echo "<hr/>";
+		
+		$forecastArray = $forecastPHP->data->weather;
+		
+		function forecastHTML ($date,$desc,$icon,$tmax,$tmin) {
+			$strHTML =  "
+			<div class=\"forecast\">
+			  <p class=\"date\"> $date </p>
+			  <p class=\"desc\"> $desc </p>
+			  <p><img src=\"$icon\"/></p>
+			  <p class=\"temp\">min : $tmin -- max : $tmax</p>
+		   </div>
+		   ";
+		   return $strHTML;
+		}
+		
+		//echo forecastHTML("10-10-2014","sol","http://cdn.worldweatheronline.net/images/wsymbols01_png_64/wsymbol_0017_cloudy_with_light_rain.png",30,15);
+		foreach($forecastArray as $forecastDay) {
+			echo forecastHTML($forecastDay->date, $forecastDay->weatherDesc[0]->value, $forecastDay->weatherIconUrl[0]->value, $forecastDay->tempMaxC, $forecastDay->tempMinC);	
+		}
 		
 		?>
 	</body>
