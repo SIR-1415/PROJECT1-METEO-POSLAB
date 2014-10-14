@@ -12,6 +12,7 @@
 		$pformat ="format=json";
 		$plocation = "q=".urlencode($_GET['location']);
 		$pnumdays = "num_of_days=5";
+		
 		$pkey = "key=jx6a4hxmgej238dw8x4p8vvc";
 		
 		$callURL = $coreURL.$pformat.$sep.$plocation.$sep.$pnumdays.$sep.$pkey;
@@ -20,7 +21,7 @@
 		$forecastJSON = file_get_contents($callURL);
 		//echo($forecastJSON);
 		
-		//  Initiate curl
+		//  Initiate curl-
 		$ch = curl_init();
 		// Disable SSL verification
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
