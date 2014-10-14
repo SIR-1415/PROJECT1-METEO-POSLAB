@@ -74,10 +74,25 @@
 		   ";
 		   return $strHTML;
 		}
+		function forecastXML ($date,$desc,$icon,$tmax,$tmin) {
+			$xml = new SimpleXMLElement("<div/>");
+			$xml->addAttribute("class","forecast");
+			$dateXml = $xml->addChild("p",$date);
+			$dateXml->addAttribute("class","date");
+			$descXml = $xml->addChild("p",$desc);
+			$descXml->addAttribute("class","desc");
+			$iconXml = $xml->addChild("img");
+			$iconXml->addAttribute("src",$icon);
+			$tempXml = $xml->addChild("p","min : $tmin -- max: $tmax");
+			$tempXml->addAttribute("class","temp");
+			$strXML = $xml->asXML();
+			return $strXML;
+		}
 		
 		//echo forecastHTML("10-10-2014","sol","http://cdn.worldweatheronline.net/images/wsymbols01_png_64/wsymbol_0017_cloudy_with_light_rain.png",30,15);
 		foreach($forecastArray as $forecastDay) {
-			echo forecastHTML($forecastDay->date, $forecastDay->weatherDesc[0]->value, $forecastDay->weatherIconUrl[0]->value, $forecastDay->tempMaxC, $forecastDay->tempMinC);	
+			//echo forecastHTML($forecastDay->date, $forecastDay->weatherDesc[0]->value, $forecastDay->weatherIconUrl[0]->value, $forecastDay->tempMaxC, $forecastDay->tempMinC);	
+			echo forecastXML($forecastDay->date, $forecastDay->weatherDesc[0]->value, $forecastDay->weatherIconUrl[0]->value, $forecastDay->tempMaxC, $forecastDay->tempMinC);
 		}
 		
 		?>
